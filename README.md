@@ -2,17 +2,16 @@
 
 ```
 Route (pages)                              Size     First Load JS
-┌ ● / (ISR: 10 Seconds)                    599 B          70.2 kB
-├   /_app                                  0 B            36.1 kB
-├ ● /[page_id]                             608 B          70.2 kB
-└ ○ /404                                   179 B          36.3 kB
-+ First Load JS shared by all              45.5 kB
+┌ λ /                                      2.38 kB        37.6 kB
+├   /_app                                  0 B            35.2 kB
+├ λ /[page_id]                             416 B          35.6 kB
+└ ○ /404                                   179 B          35.4 kB
++ First Load JS shared by all              35.8 kB
   ├ chunks/main-e9b4da55be5174cb.js        33.9 kB
-  ├ chunks/pages/_app-a31159d18e480e0c.js  552 B
-  ├ chunks/webpack-258b6adb42c6b911.js     1.64 kB
-  └ css/40365f7e6d9bf4ac.css               9.42 kB
+  ├ chunks/pages/_app-f7c9d0e8aeb0d704.js  534 B
+  ├ chunks/webpack-8fa1640cc84ba8fe.js     750 B
+  └ css/180e091a20188f59.css               647 B
 
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)
-●  (SSG)     automatically generated as static HTML + JSON (uses getStaticProps)
-   (ISR)     incremental static regeneration (uses revalidate in getStaticProps)
 ```
