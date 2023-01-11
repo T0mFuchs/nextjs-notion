@@ -1,4 +1,4 @@
-# nextjs | react-notion-x | cms
+# nextjs | notion | cms
 
 ```
 Route (pages)                              Size     First Load JS
