@@ -1,8 +1,0 @@
-.PopoverContent{
-  position: relative;
-  top: 1em;
-  right: .5em;
-  border-radius: 6px;
-  border: 0;
-  background: var(--bg-tertiary);
-}

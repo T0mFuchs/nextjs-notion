@@ -6,10 +6,12 @@ import dynamic from "next/dynamic";
 import "./globals.css";
 import "uno.css";
 
-const Settings = dynamic(() => import("ui/app/settings"), { suspense: true });
+const Settings = dynamic(() => import("ui/app/settings"), {
+  ssr: false,
+});
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [open, setOpen] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
   const router = useRouter();
   return (
     <StrictMode>
@@ -21,18 +23,12 @@ export default function App({ Component, pageProps }: AppProps) {
             text="[32px]"
             onClick={() => router.reload()}
           />
-          <span
-            i-mdi-dots-horizontal
-            cursor-pointer
-            text="[32px]"
-            fixed
-            right-3
-            onClick={() => setOpen(!open)}
-          />
+          <Suspense>
+            <div absolute top="1.875" right-4>
+              <Settings open={openSettings} onOpenChange={setOpenSettings} />
+            </div>
+          </Suspense>
         </div>
-        <Suspense>
-          <Settings open={open} onOpenChange={setOpen} />
-        </Suspense>
         <Component {...pageProps} />
       </>
     </StrictMode>
