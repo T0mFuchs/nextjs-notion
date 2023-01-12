@@ -58,7 +58,7 @@ export default function Page({ page }: { page: any }) {
           </>
         </>
       ) : (
-        <div grid justify-center pt-4>
+        <div grid justify-center pt-4 animate-pulse>
           loading...
         </div>
       )}

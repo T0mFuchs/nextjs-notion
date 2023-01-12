@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as S from "@radix-ui/react-separator";
 
 import css from "./index.module.css";
@@ -8,5 +9,12 @@ export default function Separator({
 }: {
   orientation: "horizontal" | "vertical";
 }) {
-  return <S.Root className={css.root} {...props} />;
+  return (
+    <S.Root
+      orientation={orientation}
+      absolute
+      className={css.root}
+      {...props}
+    />
+  );
 }
