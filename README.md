@@ -1,4 +1,4 @@
-# nextjs isr with notion as cms
+# nextjs `ssg` + `isr` with notion as cms
 
 ```
 Route (pages)                                          Size     First Load JS
