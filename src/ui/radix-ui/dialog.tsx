@@ -1,7 +1,7 @@
 import React from "react";
 import * as D from "@radix-ui/react-dialog";
 
-import css from "./index.module.css";
+import css from "./dialog.module.css";
 
 export default function Dialog({
   children,

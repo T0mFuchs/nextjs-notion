@@ -1,0 +1,12 @@
+.root{
+  background-color: var(--clr-tertiary);
+  margin: 2em 0;
+}
+.root[data-orientation='horizontal'] {
+  height: 1px;
+  width: 100%;
+}
+.root[data-orientation='vertical'] {
+  height: 100%;
+  width: 1px;
+}

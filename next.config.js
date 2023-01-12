@@ -5,7 +5,8 @@ const nextConfig = {
   reactStrictMode: true,
   webpack: (config, { dev, isServer }) => {
     // * https://webpack.js.org/configuration/cache/
-    config.cache = false;
+    // disable cache for hmr to work with unocss
+    config.cache = dev ? false : true;
     config.plugins.push(
       unoCSS(),
     );
