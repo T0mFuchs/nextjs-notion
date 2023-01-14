@@ -51,9 +51,7 @@ export default function Settings({
               initial="initial"
               animate="animate"
             >
-              <div>test</div>
-              <div>pop</div>
-              <div>over</div>
+              <div>`placeholder`</div>
             </m.div>
           </LazyMotion>
         </P.Content>
