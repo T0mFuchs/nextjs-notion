@@ -1,18 +1,12 @@
 :root{
-  --clr-primary: #0e0c0c;
-  --clr-secondary: #392e46;
-  --clr-tertiary: #555555;
-  --bg-primary: #f0f0efee;
-  --bg-secondary: #dfd7d7;
-  --bg-tertiary: #221e1e;
+  --text: #0e0c0c;
+  --bg: #f0f0efee;
 }
 
 @media(prefers-color-scheme: dark){
   :root {
-    --clr-primary: #faf9efe5;
-    --bg-primary: #131313;
-    --bg-secondary: #110f0f;
-    --bg-tertiary: #0e0816;
+    --text: #faf9efe5;
+    --bg: #131313;
   }
 }
 
@@ -26,12 +20,12 @@ html{
 }
 
 a, h1, h2, h3{
-  border-bottom: .5px solid var(--clr-tertiary);
+  border-bottom: 1px solid #262626;
 }
 
 body{
-  color: var(--clr-primary);
-  background: var(--bg-primary);
+  color: var(--text);
+  background: var(--bg);
 }
 
 @media(prefers-color-scheme: dark){

@@ -2,6 +2,7 @@ const unoCSS = require('@unocss/webpack').default
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true,
   reactStrictMode: true,
   webpack: (config, { dev, isServer }) => {
     // * https://webpack.js.org/configuration/cache/

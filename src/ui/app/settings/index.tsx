@@ -21,7 +21,8 @@ export default function Settings({
           cursor-pointer
           text="[32px]"
           fixed
-          right-3
+          top-="1.75"
+          right-1
           onClick={() => onOpenChange(!open)}
         />
       </P.Trigger>

@@ -28,38 +28,46 @@ const MButton = dynamic(() => import("ui/framer-motion/m/button"), {
 });
 
 export const getStaticProps: GetStaticProps = async () => {
-  const map = (
-    await notion.databases.query({
-      database_id: process.env.NOTION_DATABASE_ID as string,
-    })
-  ).results;
+  const map = await notion.databases.query({
+    database_id: process.env.NOTION_DATABASE_ID as string,
+  });
+  const source = await notion.databases.retrieve({
+    database_id: process.env.NOTION_DATABASE_ID as string,
+  });
   return {
     props: {
       map,
+      source,
     },
     revalidate: 10,
   };
 };
 
-export default function Page({ map }: { map: any }) {
+export default function Page({ map, source }: { map: any; source: any }) {
   const [openNextPage, setOpenNextPage] = React.useState(false);
   const [nextPage, setNextPage] = React.useState(null);
   return (
     <>
       <Head>
-        <title>notion-integration</title>
+        <title>{source ? source.title[0].plain_text : null}</title>
       </Head>
+      {source ? (
+        <h4 justify-start pl-1>
+          {source.title[0].plain_text}
+        </h4>
+      ) : null}
       <div grid grid-flow-col>
         {map ? (
           <div grid gap-2 justify-center pt-2>
-            {map.map((item) => (
+            {map.results.map((item) => (
               <div key={item.id} leading-loose>
                 <button
                   text="[20px]"
                   bg-transparent
                   border-0
-                  hover:text-red
-                  focus:text-red
+                  rounded
+                  hover:bg-neutral-800
+                  focus:bg-neutral-800
                   focus:animate-pulse
                   hover:border-current
                   focus:border-current
@@ -73,8 +81,14 @@ export default function Page({ map }: { map: any }) {
                   }}
                 >
                   <span i-mdi-file relative top="-.5" />
-                  {`-`}
-                  <span relative underline left=".5">
+                  <span
+                    relative
+                    border-solid
+                    border-0
+                    border-b
+                    border-neutral-800
+                    left=".5"
+                  >
                     {getPageTitle(item)}
                   </span>
                 </button>
@@ -118,8 +132,8 @@ export default function Page({ map }: { map: any }) {
                     i-mdi-close
                     border-0
                     text="[32px]"
-                    hover:text-red
-                    focus:text-red
+                    hover:bg-red
+                    focus:bg-red
                     focus:animate-pulse
                     cursor-pointer
                     whileTap={{ scale: 0.9 }}
@@ -133,12 +147,13 @@ export default function Page({ map }: { map: any }) {
                     <Link
                       href={`/${nextPage.id}`}
                       outline-none
+                      no-underline
                       text-blue-400
                       focus:text-blue-700
                       hover:text-blue-700
                       focus:animate-pulse
                     >
-                      <span i-mdi-link relative left--1 />
+                      <span i-mdi-link-variant relative left--1 />
                       {getPageTitle(nextPage)}
                     </Link>
                   </h2>
