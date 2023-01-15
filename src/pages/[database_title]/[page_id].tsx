@@ -12,7 +12,7 @@ import type {
 export const getStaticProps: GetStaticProps = async (
   ctx: GetStaticPropsContext
 ) => {
-  const source = ctx.params?.source_title as string;
+  const source = ctx.params?.database_title as string;
   const page_id = ctx.params?.page_id as string;
   const page: any = await notion.pages.retrieve({ page_id: page_id });
   return {
@@ -31,7 +31,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: true,
     };
   } else {
-    const source = (
+    const database_title = (
       await notion.databases.retrieve({
         database_id: process.env.NOTION_DATABASE_ID as string,
       })
@@ -42,7 +42,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       })
     ).results;
     const paths = pages.map((page: any) => ({
-      params: { page_id: page.id, source_title: source },
+      params: { page_id: page.id, database_title: database_title },
     }));
     return {
       paths: paths,
@@ -51,22 +51,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 };
 
-export default function Page({ source, page }: { source: string; page: any }) {
+export default function Page({ database_title, page }: { database_title: string; page: any }) {
   return (
     <>
-      {source && page ? (
+      {database_title && page ? (
         <>
           <Head>
             <title>
-              notion-integration: {`${source}/${getPageTitle(page)}`}
+              notion-integration: {`${database_title}/${getPageTitle(page)}`}
             </title>
             <meta
               name="description"
-              content={`${source}/${getPageTitle(page)}`}
+              content={`${database_title}/${getPageTitle(page)}`}
             />
           </Head>
           <h4 pl-1>
-            {source}/{getPageTitle(page)}
+            {database_title}/{getPageTitle(page)}
           </h4>
           <div grid p-2 pt-4>
             <h2>{getPageTitle(page)}</h2>

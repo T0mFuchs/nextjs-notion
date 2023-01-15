@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
-    "prod": "next build && next start -p 3001",
+    "build": "next build && next-sitemap --config next-sitemap.js",
+    "prod": "pnpm build && next start -p 3001",
     "p": "prettier --write \"**/*.{ts,tsx,md,json}\""
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "eslint-config-next": "13.0.1",
     "framer-motion": "^8.4.2",
     "next": "13.0.1",
+    "next-sitemap": "^3.1.45",
     "preact": "^10.11.3",
     "prettier": "^2.8.2",
     "react": "18.2.0",
