@@ -1,9 +1,13 @@
 // @ts-nocheck
 import React from "react";
 import dynamic from "next/dynamic";
-import { getPageTitle } from "lib/notion/helper";
 
-import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
+import { colorHandler } from "lib/color-handler";
+
+import type {
+  PageObjectResponse,
+  QueryDatabaseResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 
 const loadMinFeatures = () =>
   import("lib/lazy/min-features").then((res) => res.default);
@@ -15,7 +19,7 @@ const AnimatePresence = dynamic(
 );
 const LazyMotion = dynamic(() => import("ui/framer-motion/lazy-motion"));
 
-export default function ViewPages({
+export default function ViewList({
   pages,
   open,
   onOpenChange,
@@ -31,7 +35,7 @@ export default function ViewPages({
       <AnimatePresence mode="popLayout">
         {open ? null : (
           <LazyMotion features={loadMinFeatures}>
-            {pages.results.map((item: any) => (
+            {pages.results.map((page: PageObjectResponse) => (
               <MDiv
                 variants={{
                   initial: {
@@ -50,7 +54,7 @@ export default function ViewPages({
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                key={item.id}
+                key={page.id}
                 p-2
                 leading-loose
               >
@@ -64,27 +68,44 @@ export default function ViewPages({
                   focus:animate-pulse
                   hover:border-current
                   focus:border-current
-                  relative
-                  left-1
+                  inline-flex
+                  gap-4
                   outline-none
                   cursor-pointer
                   onClick={() => {
                     onOpenChange(true);
-                    setNextPage(item);
+                    setNextPage(page);
                   }}
                 >
-                  <AccessibleIcon label="page-icon">
-                    <span i-mdi-file relative top="-.5" />
-                  </AccessibleIcon>
-                  <span
-                    relative
-                    border-solid
-                    border-0
-                    border-b
-                    border-neutral-800
-                    left=".5"
-                  >
-                    {getPageTitle(item)}
+                  <span>
+                    <AccessibleIcon label="page-icon">
+                      <span i-mdi-file relative top="-.5" />
+                    </AccessibleIcon>
+                    <span
+                      relative
+                      border-solid
+                      border-0
+                      border-b
+                      border-neutral-800
+                      left=".5"
+                    >
+                      {page.properties.Name.title[0].plain_text}
+                    </span>
+                  </span>
+                  <span grid grid-flow-col gap-4 pl-6>
+                    {page.properties.Tags.multi_select.map((tag: any) => (
+                      <span
+                        style={{
+                          color: "#0e0c0c",
+                          background: colorHandler(tag.color),
+                        }}
+                        rounded-md
+                        text-center
+                        key={tag.name}
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
                   </span>
                 </button>
               </MDiv>

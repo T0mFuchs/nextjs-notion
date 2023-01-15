@@ -3,7 +3,6 @@ import React from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { notion } from "lib/notion";
-import { getPageTitle } from "lib/notion/helper";
 
 import type { GetStaticProps } from "next";
 import type {
@@ -13,11 +12,11 @@ import type {
 
 // todo : add types
 
-const ViewPages = dynamic(() => import("ui/app/data/pages"));
-const ViewPage = dynamic(() => import("ui/app/data/page"));
+const ViewList = dynamic(() => import("ui/app/data/list"));
+const ViewSinglePage = dynamic(() => import("ui/app/data/page"));
 
 export const getStaticProps: GetStaticProps = async () => {
-  const source = await notion.databases.retrieve({
+  const database = await notion.databases.retrieve({
     database_id: process.env.NOTION_DATABASE_ID as string,
   });
   const map = await notion.databases.query({
@@ -25,7 +24,7 @@ export const getStaticProps: GetStaticProps = async () => {
   });
   return {
     props: {
-      source,
+      database,
       map,
     },
     revalidate: 10,
@@ -33,13 +32,12 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 export default function Page({
-  source,
+  database,
   map,
 }: {
-  source: GetDatabaseResponse;
+  database: GetDatabaseResponse;
   map: QueryDatabaseResponse;
 }) {
-  console.log("map", map);
   const [openNextPage, setOpenNextPage] = React.useState(false);
   const [nextPage, setNextPage]: any = React.useState(null);
   React.useEffect(() => {
@@ -51,32 +49,35 @@ export default function Page({
     <>
       <Head>
         <title>
-          notion-integration: {source ? source.title[0].plain_text : null}
+          notion-integration: {database.title[0].plain_text}/
+          {nextPage ? nextPage.properties.Name.title[0].plain_text : null}
         </title>
         <meta
           name="description"
-          content={`${source.title[0].plain_text} overview`}
+          content={`${database.title[0].plain_text} overview`}
         />
       </Head>
       <h4 pl-1>
-        {source ? (
+        {database ? (
           <>
-            {source.title[0].plain_text}
-            {nextPage ? "/" + getPageTitle(nextPage) : null}
+            {database.title[0].plain_text}
+            {nextPage
+              ? "/" + nextPage.properties.Name.title[0].plain_text
+              : null}
           </>
         ) : null}
       </h4>
       <div grid p-8>
-        {nextPage && source ? (
-          <ViewPage
+        {nextPage && database ? (
+          <ViewSinglePage
             page={nextPage}
-            source={source}
+            db_res={database}
             open={openNextPage}
             onOpenChange={setOpenNextPage}
           />
         ) : null}
         {map ? (
-          <ViewPages
+          <ViewList
             pages={map}
             open={openNextPage}
             onOpenChange={setOpenNextPage}

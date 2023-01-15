@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import * as D from "@radix-ui/react-dialog";
 
@@ -17,8 +18,17 @@ export default function Dialog({
     <>
       <D.Root open={open} onOpenChange={onOpenChange}>
         <D.Portal>
-          <D.Overlay className={css.overlay} />
-          <D.Content className={css.content} {...props}>
+          <D.Overlay inset-0 fixed className={css.overlay} />
+          <D.Content
+            fixed
+            top="50%"
+            left="50%"
+            max-w-md
+            max-h-fit
+            transition
+            className={css.content}
+            {...props}
+          >
             {children}
           </D.Content>
         </D.Portal>

@@ -2,14 +2,15 @@
 import React from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-
-import { getPageTitle } from "lib/notion/helper";
+import type {
+  GetDatabaseResponse,
+  PageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 
 const loadMinFeatures = () =>
   import("lib/lazy/min-features").then((res) => res.default);
 
 const Dialog = dynamic(() => import("ui/radix-ui/dialog"));
-const Separator = dynamic(() => import("ui/radix-ui/separator"));
 const AccessibleIcon = dynamic(() => import("ui/radix-ui/accessible-icon"));
 const MDiv = dynamic(() => import("ui/framer-motion/m/div"));
 const AnimatePresence = dynamic(
@@ -17,14 +18,14 @@ const AnimatePresence = dynamic(
 );
 const LazyMotion = dynamic(() => import("ui/framer-motion/lazy-motion"));
 
-export default function ViewPage({
+export default function ViewSinglePage({
   page,
-  source,
+  db_res,
   open,
   onOpenChange,
 }: {
-  page: any;
-  source: any;
+  page: PageObjectResponse;
+  db_res: GetDatabaseResponse;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
@@ -32,7 +33,16 @@ export default function ViewPage({
     <React.Suspense>
       <AnimatePresence mode="popLayout">
         {open ? (
-          <Dialog open={open} onOpenChange={onOpenChange}>
+          <Dialog
+            w="2/3"
+            h="2/3"
+            border-solid
+            border=".5"
+            border-neutral-800
+            rounded
+            open={open}
+            onOpenChange={onOpenChange}
+          >
             <LazyMotion features={loadMinFeatures}>
               <MDiv
                 variants={{
@@ -53,10 +63,9 @@ export default function ViewPage({
                 animate="animate"
                 exit="exit"
               >
-                <Separator orientation="vertical" />
                 <h2>
                   <Link
-                    href={`${source.title[0].plain_text}/${page.id}`}
+                    href={`${db_res.title[0].plain_text}/${page.id}`}
                     outline-none
                     no-underline
                     text-blue-400
@@ -67,7 +76,7 @@ export default function ViewPage({
                     <AccessibleIcon label="link-icon">
                       <span i-mdi-link-variant relative left--1 />
                     </AccessibleIcon>
-                    {getPageTitle(page)}
+                    {page.properties.Name.title[0].plain_text}
                   </Link>
                 </h2>
                 <p>id: {page.id}</p>
