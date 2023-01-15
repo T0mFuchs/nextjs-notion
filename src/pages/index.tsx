@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { notion } from "lib/notion";
 import { getPageTitle } from "lib/notion/helper";
 
-import { GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 import type {
   GetDatabaseResponse,
   QueryDatabaseResponse,
@@ -39,6 +39,7 @@ export default function Page({
   source: GetDatabaseResponse;
   map: QueryDatabaseResponse;
 }) {
+  console.log("map", map);
   const [openNextPage, setOpenNextPage] = React.useState(false);
   const [nextPage, setNextPage]: any = React.useState(null);
   React.useEffect(() => {
@@ -65,7 +66,7 @@ export default function Page({
           </>
         ) : null}
       </h4>
-      <div grid p-2 pt-4>
+      <div grid p-8>
         {nextPage && source ? (
           <ViewPage
             page={nextPage}

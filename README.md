@@ -4,7 +4,7 @@
 Route (pages)                                          Size     First Load JS
 ┌ ● / (ISR: 10 Seconds)                                2.13 kB        38.7 kB
 ├   /_app                                              0 B            36.6 kB
-├ ● /[page_id] (ISR: 10 Seconds)                       528 B          37.1 kB
+├ ● /[database_title]/[page_id] (ISR: 10 Seconds)      528 B          37.1 kB
 ├   ├ /f0ef2574-265b-4587-89c5-d06d56c72c85
 ├   ├ /75e03c8e-b444-418e-88c3-c8be7a1ba1fa
 ├   ├ /05305c1c-4b3d-44ee-a58d-67977b2b4001

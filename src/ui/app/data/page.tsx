@@ -56,7 +56,7 @@ export default function ViewPage({
                 <Separator orientation="vertical" />
                 <h2>
                   <Link
-                    href={`${source.title[0].plain_text.toString()}/${page.id}`}
+                    href={`${source.title[0].plain_text}/${page.id}`}
                     outline-none
                     no-underline
                     text-blue-400
