@@ -1,6 +1,5 @@
 .root{
   background-color: #262626;
-  margin: 3.9em 0;
 }
 .root[data-orientation='horizontal'] {
   height: 1px;

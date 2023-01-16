@@ -63,7 +63,7 @@ export default function ViewSinglePage({
                 animate="animate"
                 exit="exit"
               >
-                <h2>
+                <h2 px-2>
                   <Link
                     href={`${db_res.title[0].plain_text}/${page.id}`}
                     outline-none
@@ -74,12 +74,12 @@ export default function ViewSinglePage({
                     focus:animate-pulse
                   >
                     <AccessibleIcon label="link-icon">
-                      <span i-mdi-link-variant relative left--1 />
+                      <span i-mdi-link-variant relative left--1 top="-.5" />
                     </AccessibleIcon>
                     {page.properties.Name.title[0].plain_text}
                   </Link>
                 </h2>
-                <p>id: {page.id}</p>
+                <p px-1>id: {page.id}</p>
               </MDiv>
             </LazyMotion>
           </Dialog>

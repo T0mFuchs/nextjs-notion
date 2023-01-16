@@ -3,6 +3,7 @@ import React from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { notion } from "lib/notion";
+import { formatDistance } from "date-fns";
 
 import type { GetStaticProps } from "next";
 import type {
@@ -43,6 +44,8 @@ export default function Page({
   React.useEffect(() => {
     if (!openNextPage && nextPage) {
       setNextPage(null);
+    } else {
+      console.log("nextPage", nextPage);
     }
   }, [nextPage, openNextPage]);
   return (
@@ -67,6 +70,7 @@ export default function Page({
           </>
         ) : null}
       </h4>
+      <h4 absolute top-0 right-1>edited {formatDistance(Date.parse(database.last_edited_time), new Date(), { includeSeconds: true })} ago</h4>
       <div grid p-8>
         {nextPage && database ? (
           <ViewSinglePage

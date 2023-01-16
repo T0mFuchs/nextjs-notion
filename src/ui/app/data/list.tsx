@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from "react";
 import dynamic from "next/dynamic";
-
+import { formatDistance } from "date-fns";
 import { colorHandler } from "lib/color-handler";
 
 import type {
@@ -68,6 +68,7 @@ export default function ViewList({
                   focus:animate-pulse
                   hover:border-current
                   focus:border-current
+                  py-1
                   inline-flex
                   gap-4
                   outline-none
@@ -106,6 +107,7 @@ export default function ViewList({
                         {tag.name}
                       </span>
                     ))}
+                    <span relative top="1.4" px-1 text-xs>{formatDistance(Date.parse(page.last_edited_time), new Date(), { includeSeconds: true })}</span>
                   </span>
                 </button>
               </MDiv>

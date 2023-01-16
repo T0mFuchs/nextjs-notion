@@ -1,8 +1,10 @@
 // @ts-nocheck
 import Head from "next/head";
+import { formatDistance } from "date-fns";
 import { notion } from "lib/notion";
 import { colorHandler } from "lib/color-handler";
-import { Label } from "@radix-ui/react-label";
+import Separator from "ui/radix-ui/separator";
+import Label from "ui/radix-ui/label";
 
 import type {
   GetStaticProps,
@@ -98,8 +100,9 @@ export default function Page({
           </h4>
           <div grid p-8>
             <div border-solid border=".5" border-neutral-800 rounded>
-              <h2>{page.properties.Name.title[0].plain_text}</h2>
-              <div flex>
+              <h2 px-2>{page.properties.Name.title[0].plain_text}</h2>
+              <div absolute top-14 right-10>edited {formatDistance(Date.parse(page.last_edited_time), new Date())} ago</div>
+              <div flex p-2>
                 <span
                   bg-transparent
                   border-0
@@ -118,7 +121,7 @@ export default function Page({
                   />
                   <Label px-1>Tags:</Label>
                 </span>
-                <span flex gap-4 pl-8>
+                <span flex gap-4 pl-4>
                   {page.properties.Tags.multi_select.map((tag: any) => (
                     <span
                       style={{
@@ -135,17 +138,21 @@ export default function Page({
                   ))}
                 </span>
               </div>
-              <div p-2>
+              <Separator orientation="horizontal" />
+              {comments ? (
+                <div p-2>
                 {comments.map(
                   (comment: CommentObjectResponse, index: number) => (
-                    <p key={comment.id}>
-                      <div></div>
+                    <p grid key={comment.id}>
                       <div>{comment.rich_text[index].plain_text}</div>
+                      <div absolute right-10>{formatDistance(Date.parse(comment.last_edited_time), new Date(), { includeSeconds: true })} ago</div>
                     </p>
                   )
                 )}
               </div>
-              <div p-2>
+              ) : null}
+              <Separator orientation="horizontal" />
+              <div rounded bg-dark-800 p-2>
                 {blocks.map(
                   (content: ParagraphBlockObjectResponse, index: number) => (
                     <p key={content.id}>
