@@ -2,6 +2,9 @@
 import React from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+
+import { useMedia } from "hooks/useMedia";
+
 import type {
   GetDatabaseResponse,
   PageObjectResponse,
@@ -79,7 +82,9 @@ export default function ViewSinglePage({
                     {page.properties.Name.title[0].plain_text}
                   </Link>
                 </h2>
-                <p px-1>id: {page.id}</p>
+                <div my-1 px-1>
+                  id: {page.id}
+                </div>
               </MDiv>
             </LazyMotion>
           </Dialog>

@@ -1,6 +1,6 @@
 import React from "react";
 import type { AppProps } from "next/app";
-import "./globals.css";
+import "styles/globals.css";
 import "uno.css";
 
 export default function App({ Component, pageProps }: AppProps) {

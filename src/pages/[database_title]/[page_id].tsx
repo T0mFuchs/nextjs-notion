@@ -79,7 +79,7 @@ export default function Page({
   comments: ListCommentsResponse[];
 }) {
   //console.log("page", page);
-  console.log("block", blocks);
+  //console.log("block", blocks);
   //console.log("comments", comments);
   return (
     <>
@@ -87,8 +87,7 @@ export default function Page({
         <>
           <Head>
             <title>
-              notion-integration:{" "}
-              {`${database_title}/${page.properties.Name.title[0].plain_text}`}
+              {`notion-integration: ${database_title}/${page.properties.Name.title[0].plain_text}`}
             </title>
             <meta
               name="description"
@@ -100,12 +99,18 @@ export default function Page({
           </h4>
           <div grid p-8>
             <div border-solid border=".5" border-neutral-800 rounded>
-              <h2 px-2>{page.properties.Name.title[0].plain_text}</h2>
-              <div absolute top-14 right-10>
-                edited{" "}
-                {formatDistance(Date.parse(page.last_edited_time), new Date())}{" "}
-                ago
-              </div>
+              <h2 px-2>
+                {page.properties.Name.title[0].plain_text}
+                <span grid place-content-end font-400 text-xs text-clip>
+                  edited{" "}
+                  {formatDistance(
+                    Date.parse(page.last_edited_time),
+                    new Date()
+                  )}{" "}
+                  ago
+                </span>
+              </h2>
+
               <div flex p-2>
                 <span
                   bg-transparent
@@ -147,20 +152,20 @@ export default function Page({
               </div>
               <Separator orientation="horizontal" />
               {comments && comments.length > 0 ? (
-                <div p-2>
+                <div>
                   {comments.map(
                     (comment: CommentObjectResponse, index: number) => (
-                      <p key={comment.id} grid>
-                        <div p-1>{comment.rich_text[index].plain_text}</div>
-                        <div absolute right-10>
+                      <div key={comment.id} my-1>
+                        <span p-1>{comment.rich_text[index].plain_text}</span>
+                        <span grid place-content-end text-xs text-clip>
                           {formatDistance(
                             Date.parse(comment.last_edited_time),
                             new Date(),
                             { includeSeconds: true }
                           )}{" "}
                           ago
-                        </div>
-                      </p>
+                        </span>
+                      </div>
                     )
                   )}
                 </div>
@@ -169,15 +174,13 @@ export default function Page({
                 <>
                   <Separator orientation="horizontal" />
                   <div rounded bg-dark-800 p-2>
-                    {blocks.map(
-                      (
-                        content: ParagraphBlockObjectResponse
-                      ) => (
-                            <span key={content.id}>{content.paragraph.rich_text.map((text) => (
-                              <p key={text.plain_text}>{text.plain_text}</p>
-                            ))}</span>
-                      )
-                    )}
+                    {blocks.map((content: ParagraphBlockObjectResponse) => (
+                      <span key={content.id}>
+                        {content.paragraph.rich_text.map((text) => (
+                          <p key={text.plain_text}>{text.plain_text}</p>
+                        ))}
+                      </span>
+                    ))}
                   </div>
                 </>
               ) : null}

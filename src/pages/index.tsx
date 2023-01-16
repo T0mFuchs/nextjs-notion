@@ -13,8 +13,8 @@ import type {
 
 // todo : add types
 
-const ViewList = dynamic(() => import("ui/app/data/list"));
-const ViewSinglePage = dynamic(() => import("ui/app/data/page"));
+const Pages = dynamic(() => import("ui/app/data/pages"));
+const PagePreview = dynamic(() => import("ui/app/data/page"));
 
 export const getStaticProps: GetStaticProps = async () => {
   const database = await notion.databases.retrieve({
@@ -39,6 +39,7 @@ export default function Page({
   database: GetDatabaseResponse;
   map: QueryDatabaseResponse;
 }) {
+  //console.log("database", database);
   //console.log("map", map);
   const [openNextPage, setOpenNextPage] = React.useState(false);
   const [nextPage, setNextPage]: any = React.useState(null);
@@ -51,8 +52,9 @@ export default function Page({
     <>
       <Head>
         <title>
-          notion-integration: {database.title[0].plain_text}/
-          {nextPage ? nextPage.properties.Name.title[0].plain_text : null}
+          {`notion-integration: ${database.title[0].plain_text}/${
+            nextPage ? nextPage.properties.Name.title[0].plain_text : null
+          }`}
         </title>
         <meta
           name="description"
@@ -78,7 +80,7 @@ export default function Page({
       </h4>
       <div grid p-8>
         {nextPage && database ? (
-          <ViewSinglePage
+          <PagePreview
             page={nextPage}
             db_res={database}
             open={openNextPage}
@@ -86,7 +88,7 @@ export default function Page({
           />
         ) : null}
         {map ? (
-          <ViewList
+          <Pages
             pages={map}
             open={openNextPage}
             onOpenChange={setOpenNextPage}
