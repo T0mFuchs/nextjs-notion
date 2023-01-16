@@ -157,7 +157,7 @@ export default function ViewList({
           </AnimatePresence>
         </TabsContent>
         <TabsContent flex-grow outline-none value="table">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence initial={false} mode="popLayout">
             {open ? null : (
               <LazyMotion features={loadMinFeatures}>
                 <MDiv
