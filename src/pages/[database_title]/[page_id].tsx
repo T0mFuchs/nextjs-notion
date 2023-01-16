@@ -58,7 +58,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       })
     ).results;
     const paths = pages.map((page: any) => ({
-      params: { page_id: page.id, database_title: database_title },
+      params: { database_title: database_title, page_id: page.id },
     }));
     return {
       paths: paths,
@@ -78,12 +78,12 @@ export default function Page({
   blocks: BlockObjectResponse[];
   comments: ListCommentsResponse[];
 }) {
-  console.log("page", page);
+  //console.log("page", page);
   console.log("block", blocks);
-  console.log("comments", comments);
+  //console.log("comments", comments);
   return (
     <>
-      {database_title && page && blocks ? (
+      {database_title && page && blocks && comments ? (
         <>
           <Head>
             <title>
@@ -101,7 +101,11 @@ export default function Page({
           <div grid p-8>
             <div border-solid border=".5" border-neutral-800 rounded>
               <h2 px-2>{page.properties.Name.title[0].plain_text}</h2>
-              <div absolute top-14 right-10>edited {formatDistance(Date.parse(page.last_edited_time), new Date())} ago</div>
+              <div absolute top-14 right-10>
+                edited{" "}
+                {formatDistance(Date.parse(page.last_edited_time), new Date())}{" "}
+                ago
+              </div>
               <div flex p-2>
                 <span
                   bg-transparent
@@ -128,9 +132,12 @@ export default function Page({
                         color: "#0e0c0c",
                         background: colorHandler(tag.color),
                       }}
-                      px-1
                       rounded-md
-                      text-center
+                      text-base
+                      h="1.5rem"
+                      relative
+                      top=".7"
+                      px-1
                       key={tag.name}
                     >
                       {tag.name}
@@ -139,28 +146,41 @@ export default function Page({
                 </span>
               </div>
               <Separator orientation="horizontal" />
-              {comments ? (
+              {comments && comments.length > 0 ? (
                 <div p-2>
-                {comments.map(
-                  (comment: CommentObjectResponse, index: number) => (
-                    <p grid key={comment.id}>
-                      <div>{comment.rich_text[index].plain_text}</div>
-                      <div absolute right-10>{formatDistance(Date.parse(comment.last_edited_time), new Date(), { includeSeconds: true })} ago</div>
-                    </p>
-                  )
-                )}
-              </div>
+                  {comments.map(
+                    (comment: CommentObjectResponse, index: number) => (
+                      <p key={comment.id} grid>
+                        <div p-1>{comment.rich_text[index].plain_text}</div>
+                        <div absolute right-10>
+                          {formatDistance(
+                            Date.parse(comment.last_edited_time),
+                            new Date(),
+                            { includeSeconds: true }
+                          )}{" "}
+                          ago
+                        </div>
+                      </p>
+                    )
+                  )}
+                </div>
               ) : null}
-              <Separator orientation="horizontal" />
-              <div rounded bg-dark-800 p-2>
-                {blocks.map(
-                  (content: ParagraphBlockObjectResponse, index: number) => (
-                    <p key={content.id}>
-                      {content.paragraph.rich_text[index].plain_text}
-                    </p>
-                  )
-                )}
-              </div>
+              {blocks && blocks.length > 0 ? (
+                <>
+                  <Separator orientation="horizontal" />
+                  <div rounded bg-dark-800 p-2>
+                    {blocks.map(
+                      (
+                        content: ParagraphBlockObjectResponse
+                      ) => (
+                            <span key={content.id}>{content.paragraph.rich_text.map((text) => (
+                              <p key={text.plain_text}>{text.plain_text}</p>
+                            ))}</span>
+                      )
+                    )}
+                  </div>
+                </>
+              ) : null}
             </div>
           </div>
         </>

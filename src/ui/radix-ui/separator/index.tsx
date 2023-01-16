@@ -8,11 +8,5 @@ export default function Separator({
 }: {
   orientation: "horizontal" | "vertical";
 }) {
-  return (
-    <S.Root
-      orientation={orientation}
-      className={css.root}
-      {...props}
-    />
-  );
+  return <S.Root orientation={orientation} className={css.root} {...props} />;
 }

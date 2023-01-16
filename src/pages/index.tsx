@@ -39,13 +39,12 @@ export default function Page({
   database: GetDatabaseResponse;
   map: QueryDatabaseResponse;
 }) {
+  //console.log("map", map);
   const [openNextPage, setOpenNextPage] = React.useState(false);
   const [nextPage, setNextPage]: any = React.useState(null);
   React.useEffect(() => {
     if (!openNextPage && nextPage) {
       setNextPage(null);
-    } else {
-      console.log("nextPage", nextPage);
     }
   }, [nextPage, openNextPage]);
   return (
@@ -70,7 +69,13 @@ export default function Page({
           </>
         ) : null}
       </h4>
-      <h4 absolute top-0 right-1>edited {formatDistance(Date.parse(database.last_edited_time), new Date(), { includeSeconds: true })} ago</h4>
+      <h4 absolute top-0 right-1>
+        edited{" "}
+        {formatDistance(Date.parse(database.last_edited_time), new Date(), {
+          includeSeconds: true,
+        })}{" "}
+        ago
+      </h4>
       <div grid p-8>
         {nextPage && database ? (
           <ViewSinglePage

@@ -78,7 +78,7 @@ export default function ViewList({
                     setNextPage(page);
                   }}
                 >
-                  <span>
+                  <span text-lg>
                     <AccessibleIcon label="page-icon">
                       <span i-mdi-file relative top="-.5" />
                     </AccessibleIcon>
@@ -101,13 +101,23 @@ export default function ViewList({
                           background: colorHandler(tag.color),
                         }}
                         rounded-md
-                        text-center
+                        text-base
+                        h="1.5rem"
+                        relative
+                        top=".7"
+                        px-1
                         key={tag.name}
                       >
                         {tag.name}
                       </span>
                     ))}
-                    <span relative top="1.4" px-1 text-xs>{formatDistance(Date.parse(page.last_edited_time), new Date(), { includeSeconds: true })}</span>
+                    <span relative top="1.4" px-1 text-xs>
+                      {formatDistance(
+                        Date.parse(page.last_edited_time),
+                        new Date(),
+                        { includeSeconds: true }
+                      )}
+                    </span>
                   </span>
                 </button>
               </MDiv>
